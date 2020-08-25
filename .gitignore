@@ -1,0 +1,9 @@
+*.sw[o-z]
+.ipynb_checkpoints
+__pycache__
+*.pyc
+*.zip
+*.~lock.*.xlsx*
+*.npy
+*.pickle
+*.h5

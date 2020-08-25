@@ -1,0 +1,2 @@
+class SimPathException(Exception):
+  pass

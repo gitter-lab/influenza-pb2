@@ -1,0 +1,21 @@
+###################################################################
+# Submit arbitrary command to HTCondor
+# See ~/bin/condor_submitter.sh
+###################################################################
+
+Universe = vanilla
+
+Notification = Never
+Notify_user = abaker@cs.wisc.edu
+
+Output = $ENV(CONDOR_OUT_DIR)/$(Cluster).$(Process).out
+Error = $ENV(CONDOR_OUT_DIR)/$(Cluster).$(Process).err  
+Log = $ENV(CONDOR_OUT_DIR)/$(Cluster).$(Process).log
+
+# Prefer to run on the Virology exec nodes in the WID pool but don't require it
+Rank = MachineOwner == "Virology"
+Request_cpus = 1
+request_memory = 16384
+Environment = "PATH=$ENV(PATH) PYTHONHOME=$ENV(PYTHONHOME) PYTHONPATH=$ENV(PYTHONPATH) MATLABPATH=$ENV(MATLABPATH)"
+Queue
+#END

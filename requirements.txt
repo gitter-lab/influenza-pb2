@@ -1,0 +1,5 @@
+gprofiler-official==0.3.5
+numpy
+networkx
+ortools
+ipython
