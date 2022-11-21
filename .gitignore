@@ -9,3 +9,4 @@ __pycache__
 *.h5
 code/python/build
 data/edges_file.txt
+data/mapping_file.txt

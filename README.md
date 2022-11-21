@@ -33,4 +33,7 @@ wget -O mapping_file.txt https://figshare.com/ndownloader/files/38264649
 ```
 
 ## Run flopro
-
+```
+mkdir flow_results
+flow.py --min-sources 1 --min-targets 1 --edges-file data/edges_file.txt --mapping-file data/mapping_file.txt --sources-file data/hf_curve_shape_ensp_stringdb_filter.txt --targets-file data/gene_lists/mehle_targets_ensp.txt --outdir flow_results
+```

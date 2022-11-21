@@ -166,7 +166,8 @@ def vis_node_clusters_gv(G, ofh, roots=[], targets=[], cluster_label_pairs=[], w
 
   # write node ranks
   # e.g. { rank=same; 1; A;}
-  ofh.write("{{ rank=min; {}; }}\n".format("; ".join(roots)))
+  if len(roots) > 0:
+    ofh.write("{{ rank=min; {}; }}\n".format("; ".join(roots)))
   #ofh.write("{{ rank=max; {}; }}\n".format("; ".join(targets)))
 
   # write edges

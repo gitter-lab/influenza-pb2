@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 """
-Find paths, by solving the min-cost flow problem, through a protein-protein interaction network that connect source proteins in the  <sources_file> with targets in the <targets_file>. The protein-protein interaction network 
-given by <edges_file> has proteins identified by Ensembl protein identifiers (ENSP) and consists of edges or
+Find paths, by solving the min-cost flow problem, through a protein-protein interaction network that connect source proteins in the  <sources_file> with targets in the <targets_file>. 
+
+Usage: flow.py --min-sources 1 --min-targets 1 --edges-file data/edges_file.txt --mapping-file data/mapping_file.txt --sources-file data/hf_curve_shape_ensp_stringdb_filter.txt --targets-file data/gene_lists/mehle_targets_ensp.txt --outdir flow_results
+
+The protein-protein interaction network given by <edges_file> has proteins identified by Ensembl protein identifiers (ENSP) and consists of edges or
 interactions between proteins in the ABC format. That is, lines are three, space-delimited tokens:
 <ensp_a> <ensp_b> <weight>
 where the weight is the strength of the interaction. We typically use https://string-db.org/.
