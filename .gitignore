@@ -7,3 +7,4 @@ __pycache__
 *.npy
 *.pickle
 *.h5
+code/python/build
