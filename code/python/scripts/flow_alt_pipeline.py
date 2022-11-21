@@ -3,8 +3,8 @@ import sys, argparse
 import os, os.path
 import numpy as np
 import networkx as nx
-import ppi.parsers.abc
-from ppi import script_utils
+import flopro.parsers.abc
+from flopro import script_utils
 import flow
 
 # TODO dont assume targets file is already pre-processed to be the same size as targets-file?

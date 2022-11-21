@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from ppi import string_db
+from flopro import string_db
 import sys, argparse
 
 def main():

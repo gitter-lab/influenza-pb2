@@ -24,8 +24,8 @@ Authors: Anthony Gitter, Chris Magnano, Aaron Baker
 import argparse, sys
 import os, os.path
 import networkx as nx
-import ppi.gsea
-import ppi.plot
+import flopro.gsea
+import flopro.plot
 from ortools.graph import pywrapgraph
 from gprofiler import GProfiler
 
@@ -270,7 +270,7 @@ def main(args):
       enrich_dir = os.path.join(args.outdir, 'enrich')
       if not os.path.exists(enrich_dir):
           os.mkdir(enrich_dir)
-      set_fp_pairs = ppi.gsea.gsea_connected_components(H, enrich_dir)
+      set_fp_pairs = flopro.gsea.gsea_connected_components(H, enrich_dir)
 
       # document which component is associated with which enrichment result
       # its a ragged csv where each line is a connected component
@@ -290,15 +290,15 @@ def main(args):
                 line = line.rstrip()
                 node, weight = line.split(',')
                 weights[node] = float(weight)
-      ppi.plot.vis_node_clusters_gv(H, open(flow_outfile, 'w'), sources, targets, weights=weights)
+      flopro.plot.vis_node_clusters_gv(H, open(flow_outfile, 'w'), sources, targets, weights=weights)
 
       # write enrichment graphviz
       if args.visualization == 'single':
-          ppi.plot.vis_single_community(H, sources, targets, set_fp_pairs, args)
+          flopro.plot.vis_single_community(H, sources, targets, set_fp_pairs, args)
 
       elif args.visualization == 'multi':
           enrich_fps = list(map(lambda x: x[1], set_fp_pairs))
-          ppi.plot.vis_multi_community(H, sources, targets, enrich_fps, args, weights=weights)
+          flopro.plot.vis_multi_community(H, sources, targets, enrich_fps, args, weights=weights)
 
       with open(flow_meta_outfile, 'w') as fh:
           fh.write('{}\t{}\n'.format('flow', flow))

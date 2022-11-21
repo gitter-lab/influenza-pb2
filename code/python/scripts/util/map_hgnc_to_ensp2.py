@@ -2,9 +2,9 @@
 import os, os.path
 import argparse, sys
 import re
-from ppi import ensembl
-from ppi import script_utils
-from ppi.string_db import parse_string_fh
+from flopro import ensembl
+from flopro import script_utils
+from flopro.string_db import parse_string_fh
 
 def main():
   parser = argparse.ArgumentParser(description="""
