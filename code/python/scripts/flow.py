@@ -5,6 +5,7 @@ given by <edges_file> has proteins identified by Ensembl protein identifiers (EN
 interactions between proteins in the ABC format. That is, lines are three, space-delimited tokens:
 <ensp_a> <ensp_b> <weight>
 where the weight is the strength of the interaction. We typically use https://string-db.org/.
+<min_sources> constrains the flow program to require it to include the number <min_sources> source proteins in the result. Higher values find pathways shared among more of the source proteins but at the expense of the strength of interaction evidence. A value of 1 imposes no constraint. Similar remarks can be made for <min_targets>.
 
 The flow result is output to the file flow_result.graphml. If <flow_only> is not provided, the program then
 performs Gene Set Enrichment Analysis on the connected components in the output network. Each connected
