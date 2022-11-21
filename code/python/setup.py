@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 from distutils.core import setup
 
-setup(name="ppi",
+setup(name="flopro",
   version="0.1",
   description="Library",
   author="Aaron Baker",
   author_email="abaker@cs.wisc.edu",
-  packages=['ppi', 'ppi.parsers'],
+  packages=['flopro', 'flopro.parsers'],
   scripts=[
     'scripts/flow_sim_pipeline.py',
     'scripts/flow_sim_screens.py',

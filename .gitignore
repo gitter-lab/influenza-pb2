@@ -10,3 +10,4 @@ __pycache__
 code/python/build
 data/edges_file.txt
 data/mapping_file.txt
+.idea
