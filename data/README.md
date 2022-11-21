@@ -8,3 +8,7 @@ Each of these nodes was checked for membership in the STRINGdb network (experime
 This file is used as the `--sources-file` for `flow.py`.
 
 The [`gene_lists`](gene_lists) subdirectory contains the host factor screening data used to create targets for the network flow analysis.
+
+The `--edges-file` can be obtained at https://doi.org/10.6084/m9.figshare.21588270 and is a transformation of STRINGdb data into the ABC file format (nodeA, nodeB, weightC).
+
+The `--mapping-file` can be obtained at https://doi.org/10.6084/m9.figshare.21588285 and is a snapshot of data from biomaRt, mapping HNGC to ENSP.
