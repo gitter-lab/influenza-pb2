@@ -1,7 +1,21 @@
 #!/usr/bin/env python
 """
-Originally written by Anthony Gitter
-Edited by Chris Magnano for batch use
+Find paths, by solving the min-cost flow problem, through a protein-protein interaction network that connect source proteins in the  <sources_file> with targets in the <targets_file>. The protein-protein interaction network 
+given by <edges_file> has proteins identified by Ensembl protein identifiers (ENSP) and consists of edges or
+interactions between proteins in the ABC format. That is, lines are three, space-delimited tokens:
+<ensp_a> <ensp_b> <weight>
+where the weight is the strength of the interaction. We typically use https://string-db.org/.
+
+The flow result is output to the file flow_result.graphml. If <flow_only> is not provided, the program then
+performs Gene Set Enrichment Analysis on the connected components in the output network. Each connected
+component can have multiple significant enrichments, so the first 10 significant enrichments are written
+to files in the <output_dir>. For example the *_0_*.gv and *_0_*.png files report the most significant enrichment
+for each connected component. The *_1_* files report the next most significant enrichment, and so on. The network
+does not vary across these files, only the enrichments.
+
+Because it is often convenient to use HGNC gene identifiers, you can provide a <mapping_file> to translate ENSP identifiers used by the program to HGNC identifiers to be used in the output files.
+
+Authors: Anthony Gitter, Chris Magnano, Aaron Baker
 """
 import argparse, sys
 import os, os.path
@@ -199,7 +213,6 @@ def main(args):
     other_capacity = flow
 
     # parse optional arguments
-    # TODO the sections if True are untested
     other_flow = None
     target_capacity_dict = {}
     if args.target_capacity_file is not None and args.flow_meta_file is not None:
@@ -217,11 +230,6 @@ def main(args):
                 target_capacity_dict[tokens[0]] = int(tokens[1])
 
     # rescale flow/capacity if optional arguments are present
-    # TODO document this at more relevant locations:
-    # target_capacity_file contains the flow that was used in a previous run
-    # that flow is used to set the capacity of those nodes to be less than the previously used flow to force a different result
-    # TODO actually this doesnt work -- need to set cost not capacity
-
     sources = parse_nodes(args.sources_file)
     targets = parse_nodes(args.targets_file)
     if args.verbose:

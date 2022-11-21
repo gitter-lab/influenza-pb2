@@ -8,3 +8,4 @@ __pycache__
 *.pickle
 *.h5
 code/python/build
+data/edges_file.txt
