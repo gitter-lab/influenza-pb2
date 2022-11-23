@@ -325,9 +325,6 @@ def vis_multi_community(G_prime, roots, targets, enrich_fps, args, weights=None)
     with open(gv_out_fp, 'w') as ofh:
       exhausted_inds, cluster_members = enrichs_to_gv(G_prime, enrich_fhs, ofh)
       vis_node_clusters_gv(G_prime, ofh, roots=roots, targets=targets, cluster_label_pairs=cluster_members, weights=weights)
-
-      print("exhausted_inds: " + ",".join(map(str, exhausted_inds)))
-      #sys.stderr.write("[warning] only wrote {} graphviz files, less than the requested {}\n".format(i, max_enrich_gv))
   for enrich_fh in enrich_fhs:
     enrich_fh.close()
   process_gvs(gv_out_fps, args)

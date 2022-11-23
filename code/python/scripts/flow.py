@@ -209,29 +209,11 @@ def main(args):
     flow_outfile = os.path.join(args.outdir, 'flow_result.gv')
     comp_enrich_map_outfile = os.path.join(args.outdir, 'comp_enrich_map.txt')
     flow_graphml = os.path.join(args.outdir, 'flow_result.graphml')
-    flow_target_outfile = os.path.join(args.outdir, 'target_flow.tsv')
 
     flow = args.min_sources * args.min_targets
     source_capacity = args.min_targets
     default_target_capacity = args.min_sources
     other_capacity = flow
-
-    # parse optional arguments
-    other_flow = None
-    target_capacity_dict = {}
-    if args.target_capacity_file is not None and args.flow_meta_file is not None:
-        with open(args.flow_meta_file) as fh:
-            for line in fh:
-                line = line.rstrip()
-                tokens = line.split()
-                if tokens[0] == 'flow':
-                    other_flow = int(tokens[1])
-
-        with open(args.target_capacity_file) as fh:
-            for line in fh:
-                line = line.rstrip()
-                tokens = line.split()
-                target_capacity_dict[tokens[0]] = int(tokens[1])
 
     # rescale flow/capacity if optional arguments are present
     sources = parse_nodes(args.sources_file)
@@ -318,7 +300,7 @@ def add_flow_args(parser):
                         type=str,
                         required=True)
     parser.add_argument('--outdir',
-                        help='Output file',
+                        help='Output directory',
                         type=str,
                         required=True)
     parser.add_argument('--min-sources',
@@ -329,14 +311,8 @@ def add_flow_args(parser):
                         help='Minimum number of targets that flow must pass through',
                         type=int,
                         required=True)
-    parser.add_argument('--target-capacity-file',
-                        help='tsv file with lines as <node> <capacity> which specifies the capacity from that node to the sink',
-                        type=str)
     parser.add_argument('--node-weights',
                         help='csv file with lines as <node>,<weight> where smaller weights result in larger nodes')
-    parser.add_argument('--flow-meta-file',
-                        help='tsv file with attribute value pairs of flow parameters including \'flow\'',
-                        type=str)
     parser.add_argument('--verbose', '-v',
                         help='if set, produce verbose output',
                         action='store_true')
