@@ -30,7 +30,7 @@ python setup.py install
 
 ## Download data dependencies
 ```
-cd data
+cd ../../data
 wget -O edges_file.txt https://figshare.com/ndownloader/files/38264646
 wget -O mapping_file.txt https://figshare.com/ndownloader/files/38264649
 ```
