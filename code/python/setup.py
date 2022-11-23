@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(name="flopro",
   version="0.1",
-  description="Library",
+  description="Flow program for protein-protein interaction networks",
   author="Aaron Baker",
   author_email="abaker@cs.wisc.edu",
   packages=['flopro', 'flopro.parsers'],
