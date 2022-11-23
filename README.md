@@ -1,4 +1,5 @@
 # FloPro
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7342881.svg)](https://doi.org/10.5281/zenodo.7342881)
 
 FloPro is a **flo**w **pro**gram. This repository is a supplement to our manuscript:
 
