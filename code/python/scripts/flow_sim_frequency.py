@@ -2,7 +2,7 @@
 import sys, argparse
 import os, os.path
 import networkx as nx
-import ppi.parsers.abc
+import flopro.parsers.abc
 
 def main():
   parser = argparse.ArgumentParser(description="""
@@ -14,7 +14,7 @@ Compute node frequency of nodes in the resulting flow graph for many simulated r
   args = parser.parse_args()
 
   node_to_count = {}
-  G_ppi = ppi.parsers.abc.parse_abc(args.edges_file)
+  G_ppi = flopro.parsers.abc.parse_abc(args.edges_file)
   for node in G_ppi.nodes():
     node_to_count[node] = 0
 

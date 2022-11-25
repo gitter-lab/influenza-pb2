@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import argparse, sys
-import ppi.parsers.abc
+import flopro.parsers.abc
  
 def main():
   parser = argparse.ArgumentParser()
@@ -21,7 +21,7 @@ def main():
   # parse graph
   G = None
   if(graph_type == "abc"):
-    G = ppi.parsers.abc.parse_abc(args.graph)
+    G = flopro.parsers.abc.parse_abc(args.graph)
   else:
     sys.stderr.write("Not implemented")
     sys.exit(2)

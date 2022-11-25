@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import argparse
-from ppi import irefindex as iref
+from flopro import irefindex as iref
 
 def main():
   parser = argparse.ArgumentParser(description="")

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sys, argparse
 import numpy as np
-import ppi.parsers.abc
+import flopro.parsers.abc
 import flow
 import os, os.path
 
@@ -18,7 +18,7 @@ Otherwise, hits are simulated from the provided network nodes in --edges-file.
   parser.add_argument('--outdir', required=True)
   args = parser.parse_args()
 
-  G = ppi.parsers.abc.parse_abc(args.edges_file)
+  G = flopro.parsers.abc.parse_abc(args.edges_file)
   nodes = None # universe to sample from
   if args.alt_sources_file is not None:
     nodes = []

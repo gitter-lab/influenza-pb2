@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sys, argparse
-from ppi import ensembl
-from ppi.string_db import parse_string_fh
+from flopro import ensembl
+from flopro.string_db import parse_string_fh
 
 def main():
   parser = argparse.ArgumentParser(description="""

@@ -7,3 +7,8 @@ __pycache__
 *.npy
 *.pickle
 *.h5
+code/python/build
+data/edges_file.txt
+data/mapping_file.txt
+.idea
+flow_results

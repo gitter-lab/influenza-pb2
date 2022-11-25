@@ -1,13 +1,31 @@
 #!/usr/bin/env python
 """
-Originally written by Anthony Gitter
-Edited by Chris Magnano for batch use
+Find paths, by solving the min-cost flow problem, through a protein-protein interaction network that connect source proteins in the <sources_file> with targets in the <targets_file>. 
+
+Usage: flow.py --min-sources 1 --min-targets 1 --edges-file data/edges_file.txt --mapping-file data/mapping_file.txt --sources-file data/hf_curve_shape_ensp_stringdb_filter.txt --targets-file data/gene_lists/mehle_targets_ensp.txt --outdir flow_results
+
+The protein-protein interaction network given by <edges_file> has proteins identified by Ensembl protein identifiers (ENSP) and consists of edges or
+interactions between proteins in the ABC format. That is, lines are three, space-delimited tokens:
+<ensp_a> <ensp_b> <weight>
+where the weight is the strength of the interaction. We typically use https://string-db.org/.
+<min_sources> constrains the flow program to require it to include the number <min_sources> source proteins in the result. Higher values find pathways shared among more of the source proteins but at the expense of the strength of interaction evidence. A value of 1 imposes no constraint. Similar remarks can be made for <min_targets>.
+
+The flow result is output to the file flow_result.graphml. If <flow_only> is not provided, the program then
+performs Gene Set Enrichment Analysis on the connected components in the output network. Each connected
+component can have multiple significant enrichments, so the first 10 significant enrichments are written
+to files in the <output_dir>. For example the *_0_*.gv and *_0_*.png files report the most significant enrichment
+for each connected component. The *_1_* files report the next most significant enrichment, and so on. The network
+does not vary across these files, only the enrichments.
+
+Because it is often convenient to use HGNC gene identifiers, you can provide a <mapping_file> to translate ENSP identifiers used by the program to HGNC identifiers to be used in the output files.
+
+Authors: Anthony Gitter, Chris Magnano, Aaron Baker
 """
 import argparse, sys
 import os, os.path
 import networkx as nx
-import ppi.gsea
-import ppi.plot
+import flopro.gsea
+import flopro.plot
 from ortools.graph import pywrapgraph
 from gprofiler import GProfiler
 
@@ -191,37 +209,13 @@ def main(args):
     flow_outfile = os.path.join(args.outdir, 'flow_result.gv')
     comp_enrich_map_outfile = os.path.join(args.outdir, 'comp_enrich_map.txt')
     flow_graphml = os.path.join(args.outdir, 'flow_result.graphml')
-    flow_target_outfile = os.path.join(args.outdir, 'target_flow.tsv')
 
     flow = args.min_sources * args.min_targets
     source_capacity = args.min_targets
     default_target_capacity = args.min_sources
     other_capacity = flow
 
-    # parse optional arguments
-    # TODO the sections if True are untested
-    other_flow = None
-    target_capacity_dict = {}
-    if args.target_capacity_file is not None and args.flow_meta_file is not None:
-        with open(args.flow_meta_file) as fh:
-            for line in fh:
-                line = line.rstrip()
-                tokens = line.split()
-                if tokens[0] == 'flow':
-                    other_flow = int(tokens[1])
-
-        with open(args.target_capacity_file) as fh:
-            for line in fh:
-                line = line.rstrip()
-                tokens = line.split()
-                target_capacity_dict[tokens[0]] = int(tokens[1])
-
     # rescale flow/capacity if optional arguments are present
-    # TODO document this at more relevant locations:
-    # target_capacity_file contains the flow that was used in a previous run
-    # that flow is used to set the capacity of those nodes to be less than the previously used flow to force a different result
-    # TODO actually this doesnt work -- need to set cost not capacity
-
     sources = parse_nodes(args.sources_file)
     targets = parse_nodes(args.targets_file)
     if args.verbose:
@@ -258,7 +252,7 @@ def main(args):
       enrich_dir = os.path.join(args.outdir, 'enrich')
       if not os.path.exists(enrich_dir):
           os.mkdir(enrich_dir)
-      set_fp_pairs = ppi.gsea.gsea_connected_components(H, enrich_dir)
+      set_fp_pairs = flopro.gsea.gsea_connected_components(H, enrich_dir)
 
       # document which component is associated with which enrichment result
       # its a ragged csv where each line is a connected component
@@ -278,15 +272,15 @@ def main(args):
                 line = line.rstrip()
                 node, weight = line.split(',')
                 weights[node] = float(weight)
-      ppi.plot.vis_node_clusters_gv(H, open(flow_outfile, 'w'), sources, targets, weights=weights)
+      flopro.plot.vis_node_clusters_gv(H, open(flow_outfile, 'w'), sources, targets, weights=weights)
 
       # write enrichment graphviz
       if args.visualization == 'single':
-          ppi.plot.vis_single_community(H, sources, targets, set_fp_pairs, args)
+          flopro.plot.vis_single_community(H, sources, targets, set_fp_pairs, args)
 
       elif args.visualization == 'multi':
           enrich_fps = list(map(lambda x: x[1], set_fp_pairs))
-          ppi.plot.vis_multi_community(H, sources, targets, enrich_fps, args, weights=weights)
+          flopro.plot.vis_multi_community(H, sources, targets, enrich_fps, args, weights=weights)
 
       with open(flow_meta_outfile, 'w') as fh:
           fh.write('{}\t{}\n'.format('flow', flow))
@@ -306,7 +300,7 @@ def add_flow_args(parser):
                         type=str,
                         required=True)
     parser.add_argument('--outdir',
-                        help='Output file',
+                        help='Output directory',
                         type=str,
                         required=True)
     parser.add_argument('--min-sources',
@@ -317,14 +311,8 @@ def add_flow_args(parser):
                         help='Minimum number of targets that flow must pass through',
                         type=int,
                         required=True)
-    parser.add_argument('--target-capacity-file',
-                        help='tsv file with lines as <node> <capacity> which specifies the capacity from that node to the sink',
-                        type=str)
     parser.add_argument('--node-weights',
                         help='csv file with lines as <node>,<weight> where smaller weights result in larger nodes')
-    parser.add_argument('--flow-meta-file',
-                        help='tsv file with attribute value pairs of flow parameters including \'flow\'',
-                        type=str)
     parser.add_argument('--verbose', '-v',
                         help='if set, produce verbose output',
                         action='store_true')
