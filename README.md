@@ -3,9 +3,9 @@
 
 FloPro is a **flo**w **pro**gram. This repository is a supplement to our manuscript:
 
-[Alternative splicing liberates a cryptic cytoplasmic isoform of mitochondrial MECR that antagonizes influenza virus](https://doi.org/10.1101/2020.11.09.355982)
+[Alternative splicing liberates a cryptic cytoplasmic isoform of mitochondrial MECR that antagonizes influenza virus](https://doi.org/10.1371/journal.pbio.3001934).
 Steven F Baker, Helene Meistermann, Manuel Tzouros, Aaron Baker, Sabrina Golling, Juliane Siebourg Polster, Mitchell P Ledwith, Anthony Gitter, Angelique Augustin, Hassan Javanbakht, Andrew Mehle.
-_bioRxiv_ 2020 doi:10.1101/2020.11.09.355982
+_PLoS Biology_, 20:12, 2022.
 
 ## Contents
 - [`code`](code): a Python library and scripts for network flow and enrichment analysis
